@@ -1,0 +1,94 @@
+.analysis__container {
+  display: grid;
+  grid-template-rows: 1fr 3fr 1fr;
+  grid-template-columns: 1fr;
+  height: 100%;
+  overflow: hidden;
+  padding-bottom: 1rem;
+  background: transparent;
+}
+
+.analysis__info {
+  height: 100%;
+  overflow: hidden;
+
+  background: var(--color-bg-variant);
+
+  border-radius: 2rem 0 2rem 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  box-shadow: 1px 2px 10px black;
+}
+
+.analysis__info img {
+  height: 100%;
+  width: 80%;
+  aspect-ratio: 1/1;
+}
+
+.analysis__info__me,
+.analysis__info__opponent {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.3rem;
+  color: antiquewhite;
+}
+
+.analysis__info__me img,
+.analysis__info__opponent img {
+  border-radius: 2rem;
+}
+
+.analysis__move-history {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #0000002c;
+  border-radius: 0 1rem 0 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  overflow-y: scroll;
+  box-shadow: 1px 2px 10px white;
+}
+
+.analysis_move-history__row {
+  display: flex;
+  align-content: center;
+  justify-content: space-evenly;
+}
+
+.analysis_move-history__row:nth-child(even) {
+  background: #fff;
+  color: black;
+}
+
+.analysis_move-history__row:nth-child(odd) {
+  background: #4b3a3a;
+  color: #96a08c;
+}
+
+.analysis_move-history__row li:first-child {
+  font-weight: 400;
+}
+
+.analysis__action_buttons {
+  height: 70%;
+  margin-top: 2rem;
+  background: var(--color-bg-variant);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+}
+
+.analysis__action_buttons > div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.action_icons {
+  height: 2rem;
+  width: 2rem;
+  color: #96a08c;
+  cursor: pointer;
+}

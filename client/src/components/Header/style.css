@@ -1,0 +1,45 @@
+.header__container {
+  display: flex;
+  height: 6vh;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.header__container::after {
+  content: " ";
+  width: 20%;
+  background-color: #000;
+  height: 1px;
+}
+
+.header__container::before {
+  content: " ";
+  width: 20%;
+  background-color: #000;
+  height: 1px;
+}
+
+.header__container img {
+  width: 3rem;
+  aspect-ratio: 1/1;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  animation: all 3000ms ease;
+  background-color: var(--color-bg-variant);
+}
+
+.header__container img:hover {
+  width: 3rem;
+  aspect-ratio: 1/1;
+  box-shadow: 5px 5px 10px rgba(34, 96, 123, 0.5);
+}
+
+.header__container h3 {
+  letter-spacing: 2px;
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--color-light);
+}
