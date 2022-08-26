@@ -1,1 +1,1 @@
-module.exports.chessController = require('./chess.controller');
+export const chessController = require('./chess.controller');

@@ -4,6 +4,7 @@
   "description": "chess app",
   "main": "src/index.js",
   "author": "Piyush Raj <piyushrajkhg@gmail.com>",
+  "type": "module",
   "engines": {
     "node": ">=12.0.0"
   },

@@ -1,4 +1,4 @@
-const { chess } = require('chess.js');
+import { chess } from 'chess.js';
 
 const Chess = new chess();
 

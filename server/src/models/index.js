@@ -1,1 +1,1 @@
-module.exports.Game = require('./game.model');
+export const Game = require('./game.model');

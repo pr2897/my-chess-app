@@ -1,6 +1,6 @@
-const express = require('express');
-const chessRoute = require('./chess.route');
-const config = require('../../config/config');
+import express from 'express';
+import chessRoute from './chess.route.js';
+import config from '../../config/config.js';
 
 const router = express.Router();
 
@@ -26,4 +26,4 @@ if (config.env === 'development') {
   });
 }
 
-module.exports = router;
+export default router;

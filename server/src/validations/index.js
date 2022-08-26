@@ -1,1 +1,1 @@
-module.exports.gameValidation = require('./game.validation');
+export const gameValidation = require('./game.validation');

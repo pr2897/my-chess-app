@@ -1,8 +1,8 @@
-const express = require('express');
-const chessController = require('../../controllers/chess.controller');
+import express from 'express';
+import chessController from '../../controllers/chess.controller.js';
 
 const router = express.Router();
 
 router.get('/', chessController.helloWorld);
 
-module.exports = router;
+export default router;

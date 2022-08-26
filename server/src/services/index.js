@@ -1,1 +1,1 @@
-module.exports.chessService = require('./chess.service');
+export const chessService = require('./chess.service');

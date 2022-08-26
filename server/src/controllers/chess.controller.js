@@ -1,9 +1,9 @@
-const catchAsync = require('../utils/catchAsync');
+import catchAsync from '../utils/catchAsync.js';
 
 const helloWorld = catchAsync(async (req, res) => {
   res.send('hello worlld');
 });
 
-module.exports = {
+export default {
   helloWorld,
 };
