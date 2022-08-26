@@ -3,6 +3,7 @@ import chessController from '../../controllers/chess.controller.js';
 
 const router = express.Router();
 
-router.get('/', chessController.helloWorld);
+router.post('/', chessController.createNewGame);
+router.get('/:gameId', chessController.getCurentStatus);
 
 export default router;

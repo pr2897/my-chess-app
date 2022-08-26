@@ -1,1 +1,1 @@
-export const gameValidation = require('./game.validation');
+export { default as gameValidation } from './game.validation.js';

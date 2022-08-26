@@ -1,1 +1,2 @@
-export const chessService = require('./chess.service');
+import { default as chessService } from './chess.service.js';
+export { chessService };

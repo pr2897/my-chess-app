@@ -1,1 +1,1 @@
-export const Game = require('./game.model');
+export { default as Game } from './game.model.js';
