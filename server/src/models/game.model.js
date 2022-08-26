@@ -1,9 +1,16 @@
 import mongoose from 'mongoose';
 
-const moveSchema = mongoose.Schema({
-  from: { type: String, required: true },
-  to: { type: String, required: true },
-});
+const moveSchema = mongoose.Schema(
+  {
+    color: { type: String, required: true },
+    from: { type: String, required: true },
+    to: { type: String, required: true },
+    flags: { type: String, required: true },
+    piece: { type: String, required: true },
+    san: { type: String, required: true },
+  },
+  { _id: false }
+);
 
 const gameSchema = mongoose.Schema(
   {
@@ -31,6 +38,12 @@ const gameSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+    },
+
+    moveHistory: {
+      type: [moveSchema],
+      required: true,
+      min: 1,
     },
   },
   {

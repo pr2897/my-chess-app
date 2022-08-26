@@ -30,8 +30,17 @@ const movePeice = catchAsync(async (req, res) => {
   return res.send({ status: 'success', data: resp });
 });
 
+const getHistoryByRoomId = catchAsync(async (req, res) => {
+  const { roomId } = req.params;
+  if (!roomId) throw new ApiError(400, `roomId is mandatory fields`);
+
+  const resp = await chessService.getMoveHistory(roomId);
+  return res.send({ status: 'success', data: resp });
+});
+
 export default {
   createNewGame,
   getCurentStatus,
   movePeice,
+  getHistoryByRoomId,
 };

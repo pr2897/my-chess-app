@@ -4,6 +4,7 @@ import chessController from '../../controllers/chess.controller.js';
 const router = express.Router();
 
 router.post('/', chessController.createNewGame);
+router.get('/:roomId/history', chessController.getHistoryByRoomId);
 router.get('/:roomId', chessController.getCurentStatus);
 router.patch('/:roomId', chessController.movePeice);
 
