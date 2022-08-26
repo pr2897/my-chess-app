@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { AiOutlinePlus } from "react-icons/ai";
 import { HiLightBulb } from "react-icons/hi";
@@ -6,9 +7,23 @@ import { HiLightBulb } from "react-icons/hi";
 import "./style.css";
 import ME from "../../assets/images/fu1.png";
 import YOU from "../../assets/images/mu1.png";
-import { moveHistory } from "../../assets/data/data";
 
 const Analysis = () => {
+  const [history, setHistory] = useState("[]");
+  useEffect(() => {
+    const fetchAndSetHistory = async () => {
+      const resp = await axios.get(
+        "http://localhost:3000/v1/chess/cafb63c6-fa0a-4de8-8ff5-bf105c073914/history"
+      );
+      const parsedHistory = resp.data.data.map((current) => [
+        current.from,
+        current.to,
+      ]);
+      setHistory(JSON.stringify(parsedHistory));
+    };
+
+    fetchAndSetHistory();
+  }, [history]);
   return (
     <div className="container analysis__container">
       <div className="analysis__info">
@@ -27,8 +42,8 @@ const Analysis = () => {
         <h3>Move History</h3>
 
         <div>
-          {moveHistory.length > 0 ? (
-            moveHistory.map((move, idx) => (
+          {JSON.parse(history).length > 0 ? (
+            JSON.parse(history).map((move, idx) => (
               <ul className="analysis_move-history__row" key={idx}>
                 <li>{idx + 1}</li>
                 <li>{move[0]}</li>

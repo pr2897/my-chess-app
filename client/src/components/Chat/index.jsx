@@ -33,7 +33,11 @@ const Chat = () => {
             placeholder="enter your message"
           />
 
-          <a href="" className="btn btn-primary">
+          <a
+            href="."
+            onClick={(e) => e.preventDefault()}
+            className="btn btn-primary"
+          >
             <IoSend />
           </a>
         </form>
