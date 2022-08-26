@@ -5,28 +5,18 @@ import { Chess } from 'chess.js';
 import { Game } from '../models/index.js';
 import ApiError from '../utils/ApiError.js';
 
-const createNewGame = async ({ gameId, player1, player2, from, to }) => {
+const createNewGame = async ({ roomId, player1, player2, from, to }) => {
   const chess = new Chess();
+
   const move = chess.move({ from, to });
   if (!move) throw new ApiError(400, 'Illegal Move');
 
-  const session = await mongoose.startSession();
-  await session
-    .withTransaction(async () => {
-      const game = await Game.create([{ player1, player2, gameId, fen: chess.fen() }], { session });
-    })
-    .catch((err) => {
-      throw new ApiError(400, err.message);
-    })
-    .finally(() => {
-      session.endSession();
-    });
-
-  return move;
+  const game = await Game.create({ player1, player2, roomId, fen: chess.fen() });
+  return { roomId: game.roomId, move };
 };
 
-const getCurrentPosition = async (gameId) => {
-  const game = await Game.findOne({ gameId });
+const getCurrentPosition = async (roomId) => {
+  const game = await Game.findOne({ roomId });
   if (!game) throw new ApiError(400, 'No Game Records found!');
 
   const chess = new Chess(game.fen);
@@ -40,17 +30,23 @@ const getCurrentPosition = async (gameId) => {
   }, []);
 };
 
-const movePeice = ({ userId, from, to, promotion }) => {
+const move = async ({ roomId, from, to, promotion }) => {
+  const game = await Game.findOne({ roomId });
+  if (!game) throw new ApiError(400, 'No Game Records found!');
+
+  const chess = new Chess(game.fen);
+
   const move = chess.move({ from, to, promotion });
   if (!move) throw new ApiError('400', 'Illegal Move!');
 
   // save move to DB
+  const resp = await Game.findOneAndUpdate({ roomId }, { fen: chess.fen() });
 
   // return response
-  return move;
+  return { roomId, move };
 };
 
-const getMoveHistory = (gameId) => {
+const getMoveHistory = (roomId) => {
   const game = chess;
 };
 
@@ -58,4 +54,4 @@ const getTurn = (userId) => {
   return chess.turn();
 };
 
-export default { createNewGame, getCurrentPosition, movePeice, getTurn };
+export default { createNewGame, getCurrentPosition, move, getTurn };

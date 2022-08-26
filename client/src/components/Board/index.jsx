@@ -23,7 +23,6 @@ const Board = () => {
 
     const generatedSquare = row.map((item, idx) => {
       white = !white;
-      console.log({ idx, rowIdx });
 
       return (
         <Square

@@ -19,7 +19,7 @@ const gameSchema = mongoose.Schema(
       trim: true,
     },
 
-    gameId: {
+    roomId: {
       type: String,
       required: true,
       unique: true,

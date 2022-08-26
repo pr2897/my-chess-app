@@ -2,7 +2,7 @@ import catchAsync from '../utils/catchAsync.js';
 
 const createNewGame = catchAsync(async (req, res, next) => {
   const { player1, player2, from, to } = req.body;
-  console.log(req.body);
+
   next();
 });
 
