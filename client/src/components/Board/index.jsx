@@ -24,6 +24,7 @@ const Board = () => {
 
   useEffect(() => {
     if (localStorage.getItem("token") !== "test@email.com") navigate("/");
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

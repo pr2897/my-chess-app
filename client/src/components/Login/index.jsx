@@ -16,6 +16,7 @@ const Login = () => {
   useEffect(() => {
     if (localStorage.getItem("token") === "test@email.com")
       navigate(`/game?room=${localStorage.getItem("token")}`);
+    // eslint-disable-next-line
   }, []);
 
   const mocksigninApi = (email, password) => {
