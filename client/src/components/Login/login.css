@@ -1,0 +1,39 @@
+.login__container {
+  margin: 5rem auto;
+  width: 30%;
+  padding: 2rem;
+  border-radius: 2rem;
+  background-color: #a35c40;
+  margin: o auto;
+  box-shadow: 1rem 1rem 5rem
+    linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+}
+
+.login__container .actionBtn {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 2rem;
+}
+
+.active {
+  background-color: #a3717c;
+}
+
+.login__container .actionBtn button {
+  color: black;
+  width: 10rem;
+}
+
+.login__container .inputSection {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.login__container .inputSection input {
+  margin: 0 auto;
+  border-radius: 2rem;
+  padding: 0.5rem;
+  width: 100%;
+}

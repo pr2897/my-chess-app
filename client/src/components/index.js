@@ -4,3 +4,4 @@ export { default as Header } from "./Header";
 export { default as Nav } from "./Nav";
 export { default as Square } from "./Square";
 export { default as Board } from "./Board";
+export { default as Login } from "./Login";

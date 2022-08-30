@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./style.css";
 import Square from "../Square";
@@ -6,6 +7,7 @@ import { peiceImageMapping } from "../../assets/data/data";
 import { useEffect } from "react";
 
 const Board = () => {
+  const navigate = useNavigate("");
   const [update, setUpdate] = useState(true);
   const [state, setState] = useState(
     JSON.stringify([
@@ -19,6 +21,10 @@ const Board = () => {
       ["wr", "wn", "wb", "wq", "wk", "wb", "wn", "wr"],
     ])
   );
+
+  useEffect(() => {
+    if (localStorage.getItem("token") !== "test@email.com") navigate("/");
+  }, []);
 
   useEffect(() => {
     const loadBoard = async () => {

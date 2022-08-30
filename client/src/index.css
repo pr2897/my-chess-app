@@ -125,6 +125,7 @@ img {
 @media screen and (max-width: 1024px) {
   .container {
     width: var(--container-width-md);
+    margin: 0 auto;
   }
 
   section {

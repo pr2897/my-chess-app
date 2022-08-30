@@ -1,19 +1,30 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 import "./App.css";
 
-import { Analysis, Board, Chat, Header, Nav } from "./components";
+import { Analysis, Board, Chat, Header, Login, Nav } from "./components";
 
 const App = () => {
   return (
     <div className="container">
       <Header />
 
-      <div className="display">
-        <Board />
-        <Analysis />
-        <Chat />
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route
+            path="/game"
+            element={
+              <div className="display">
+                <Board />
+                <Analysis />
+                <Chat />
+              </div>
+            }
+          />
+        </Routes>
+      </Router>
 
       <Nav />
     </div>
