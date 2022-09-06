@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
@@ -14,48 +15,62 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (localStorage.getItem("token") === "test@email.com")
-      navigate(`/game?room=${localStorage.getItem("token")}`);
+    if (localStorage.getItem("token"))
+      navigate(`/game/${localStorage.getItem("token")}`);
     // eslint-disable-next-line
   }, []);
-
-  const mocksigninApi = (email, password) => {
-    console.log({ email, password });
-    if (email === "test@email.com" && password === "test@email.com")
-      return Promise.resolve("success");
-    else return Promise.reject("incorrect creds");
-  };
-
-  const mockSignupApi = (name, email, password, cnfPassword) => {
-    if (password !== cnfPassword || !(name && email && password)) {
-      throw new Error("incorrect input");
-    }
-    return Promise.resolve("success");
-  };
 
   const formHandler = async (e) => {
     e.preventDefault();
 
     if (type === "signup") {
       const { name, email, password, cnfPassword } = e.currentTarget;
-      await mockSignupApi(
-        name.value,
-        email.value,
-        password.value,
-        cnfPassword.value
-      )
-        .then(alert)
-        .catch(alert);
+
+      const axiosConfig = {
+        method: "post",
+        url: process.env.REACT_APP_SIGNUP_API,
+        data: {
+          name: name.value,
+          email: email.value,
+          password: password.value,
+          passwordConfirm: cnfPassword.value,
+          photo: "dummy image",
+        },
+      };
+
+      await axios(axiosConfig)
+        .then(({ data }) => {
+          const { token } = data;
+          if (token) {
+            localStorage.setItem("token", token);
+            setType("signin");
+          }
+        })
+        .catch((err) => {
+          alert(err?.response?.data?.message || err.message);
+        });
     }
 
     if (type === "signin") {
       const { email, password } = e.currentTarget;
-      await mocksigninApi(email.value, password.value)
-        .then((data) => {
-          localStorage.setItem("token", email.value);
-          navigate(`/game?roomId=${email.value}`);
+
+      const axiosConfig = {
+        method: "post",
+        url: process.env.REACT_APP_SIGNIN_API,
+        data: {
+          email: email.value,
+          password: password.value,
+        },
+      };
+
+      await axios(axiosConfig)
+        .then(({ data }) => {
+          navigate(`/${data.user._id}`);
         })
-        .catch((err) => alert(err));
+        .catch((err) => {
+          console.log(err);
+          alert(err?.response?.data?.message || err.message);
+        });
     }
   };
 
@@ -63,11 +78,12 @@ const Login = () => {
     <div className="login__container">
       <div className="actionBtn">
         <button
-          onClick={(e) => setType("signin")}
+          onClick={() => setType("signin")}
           className={`btn btn-primary ${type === "signin" ? "active" : ""}`}
         >
           SignIn
         </button>
+
         <button
           onClick={(e) => setType("signup")}
           className={`btn btn-primary ${type === "signup" ? "active" : ""}`}
