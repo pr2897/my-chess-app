@@ -20,17 +20,19 @@ const signup = catchAsync(async (req, res, next) => {
     photo,
   });
 
-  const token = getToken(newUser._id);
+  const newUserObject = newUser.toObject();
+  delete newUserObject.password;
+
+  const token = getToken(newUserObject._id);
 
   res.status(201).json({
     status: 'success',
     message: 'user signed up!',
     token,
     data: {
-      user: newUser,
+      user: newUserObject,
     },
   });
-  next();
 });
 
 const signin = catchAsync(async (req, res, next) => {
@@ -40,17 +42,19 @@ const signin = catchAsync(async (req, res, next) => {
   if (!email || !password) return next(new ApiError(400, 'Please Provide email & password'));
 
   // 2) check if user exists and password is correct
-  const user = await User.findOne({ email }).select('+password');
+  const userMongooseData = await User.findOne({ email }).select('+password');
 
-  if (!user || !(await user.correctPassword(password, user.password))) {
+  if (!userMongooseData || !(await userMongooseData.correctPassword(password, userMongooseData.password))) {
     return next(new ApiError(401, 'Incorrect Email or Password!'));
   }
+
+  const user = userMongooseData.toObject();
+  delete user.password;
 
   // 3) if everything is ok, send token to the client
   const token = getToken(user._id);
 
   res.status(200).json({ status: 'success', message: 'signed in', token, user });
-  next();
 });
 
 const isAuth = catchAsync(async (req, res, next) => {
