@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { isExpired } from "react-jwt";
 import axios from "axios";
 import "./style.css";
 import Square from "../Square";
 import { peiceImageMapping } from "../../assets/data/data";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const Board = () => {
-  const navigate = useNavigate("");
+  const params = useParams();
   const [update, setUpdate] = useState(true);
   const [state, setState] = useState(
     JSON.stringify([
@@ -23,21 +24,44 @@ const Board = () => {
   );
 
   useEffect(() => {
-    if (localStorage.getItem("token") !== "test@email.com") navigate("/");
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.history.pushState(null, null, "../../");
+      window.location.reload(true);
+    } else {
+      const istokenExpired = isExpired(token);
+      if (istokenExpired) {
+        localStorage.removeItem(token);
+        window.history.pushState(null, null, "../../");
+        window.location.reload(true);
+      }
+    }
+
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     const loadBoard = async () => {
-      const resp = await axios.get(
-        "http://localhost:3000/v1/chess/cafb63c6-fa0a-4de8-8ff5-bf105c073914"
-      );
+      const { roomId } = params;
+      const axiosConfig = {
+        method: "get",
+        url: `${process.env.REACT_APP_GAME_ROOT_API}/${roomId}?type=currentStatus`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
 
-      setState(JSON.stringify(resp.data.data));
+      await axios(axiosConfig)
+        .then((resp) => {
+          setState(JSON.stringify(resp.data.data));
+        })
+        .catch((err) => {
+          alert(err?.response?.data?.message || err.message);
+        });
     };
 
     loadBoard();
-  }, [update, state]);
+  }, [update, state, params]);
 
   let white = true;
   const rowChar = [8, 7, 6, 5, 4, 3, 2, 1];

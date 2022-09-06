@@ -20,15 +20,15 @@ const App = () => {
 
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/:userId" element={<GameMenu />} />
+          <Route path="/" element={<Login />} exact />
+          <Route path="/:userId" element={<GameMenu />} exact />
           <Route
-            path="/game"
+            path="/:userId/:roomId"
             element={
               <div className="display">
                 <Board />
-                <Analysis />
-                <Chat />
+                {/* <Analysis /> */}
+                {/* <Chat /> */}
               </div>
             }
           />
