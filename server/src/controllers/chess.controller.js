@@ -3,14 +3,22 @@ import jsonwebtoken from 'jsonwebtoken';
 import catchAsync from '../utils/catchAsync.js';
 import { chessService } from '../services/index.js';
 import ApiError from '../utils/ApiError.js';
+import { Game } from '../models/index.js';
 
-const createNewGame = catchAsync(async (req, res) => {
-  const roomId = uuidv4();
-  const resp = await chessService.createNewGame({ roomId, player1: req.user._id });
+const createOrJoinNewGame = catchAsync(async (req, res) => {
+  const { type } = req.body;
+  let resp = null;
+
+  if (type === 'create') {
+    const roomId = uuidv4();
+    resp = await chessService.createOrJoinNewGame({ roomId, player: req.user._id, type: 'create' });
+  } else if (type === 'join') {
+    const { roomId } = req.body;
+    resp = await chessService.createOrJoinNewGame({ roomId, player: req.user._id, type: 'join' });
+  }
+
   return res.send(resp);
 });
-
-const getCurentStatus = catchAsync(async (req, res) => {});
 
 const movePeice = catchAsync(async (req, res) => {
   const { roomId } = req.params;
@@ -33,16 +41,18 @@ const getRoomInfo = catchAsync(async (req, res) => {
   return res.send({ status: 'success', data: resp });
 });
 
-const getHistoryByRoomId = catchAsync(async (req, res) => {
-  const { roomId } = req.params;
-  if (!roomId) throw new ApiError(400, `roomId is mandatory fields`);
+const getUserGameInfo = catchAsync(async (req, res) => {
+  const listOfPastRooms = await Game.find(
+    { $or: [{ player1: req.user._id }, { player2: req.user._id }] },
+    { roomId: 1, _id: 0, player1: 1, player2: 1, updatedAt: 1, createdAt: 1 }
+  );
 
-  const resp = await chessService.getMoveHistory(roomId);
-  return res.send({ status: 'success', data: resp });
+  return res.send({ listOfPastRooms });
 });
 
 export default {
-  createNewGame,
+  createOrJoinNewGame,
   movePeice,
   getRoomInfo,
+  getUserGameInfo,
 };

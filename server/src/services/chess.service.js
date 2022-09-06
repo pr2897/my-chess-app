@@ -5,10 +5,21 @@ import { Chess } from 'chess.js';
 import { Game } from '../models/index.js';
 import ApiError from '../utils/ApiError.js';
 
-const createNewGame = async ({ roomId, player1 }) => {
-  const chess = new Chess();
-  const game = await Game.create({ player1, roomId, fen: chess.fen(), moveHistory: [] });
-  return { roomId: game.roomId };
+const createOrJoinNewGame = async ({ roomId, player, type }) => {
+  console.log({ roomId, player, type });
+  if (type === 'create') {
+    const chess = new Chess();
+    const game = await Game.create({ player1: player, roomId, fen: chess.fen(), moveHistory: [] });
+    return { roomId: game.roomId };
+  } else if (type === 'join') {
+    const gameWithRoomId = await Game.findOne({ roomId });
+    if (!gameWithRoomId) throw new ApiError(400, 'No Such Room exists!');
+
+    if (gameWithRoomId.player2) throw new ApiError(400, 'Room is Full. Please enter spectator mode to watch the live game.');
+
+    await Game.findOneAndUpdate({ roomId }, { $set: { player2: player } });
+    return { roomId: roomId };
+  }
 };
 
 const getCurrentPosition = async (roomId) => {
@@ -56,4 +67,4 @@ const getTurn = async (roomId) => {
   return chess.turn();
 };
 
-export default { createNewGame, getCurrentPosition, getMoveHistory, move, getTurn };
+export default { createOrJoinNewGame, getCurrentPosition, getMoveHistory, move, getTurn };
