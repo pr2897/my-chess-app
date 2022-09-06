@@ -76,9 +76,7 @@ const Board = () => {
       return (
         <Square
           reload={() => {
-            console.log("reload called", state);
             setUpdate(!update);
-            console.log("reload finished", state);
           }}
           available={item ? true : false}
           peice={peiceImageMapping[item]}
