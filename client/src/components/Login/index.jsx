@@ -93,7 +93,7 @@ const Login = () => {
         </button>
       </div>
 
-      <form className="inputSection" onSubmit={formHandler}>
+      <form className="login__container__inputSection" onSubmit={formHandler}>
         <input
           type="text"
           placeholder="Please enter your name"

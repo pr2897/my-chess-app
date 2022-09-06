@@ -24,14 +24,14 @@
   width: 10rem;
 }
 
-.login__container .inputSection {
+.login__container .login__container__inputSection {
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
   gap: 1rem;
 }
 
-.login__container .inputSection input {
+.login__container .login__container__inputSection input {
   margin: 0 auto;
   border-radius: 2rem;
   padding: 0.5rem;
