@@ -15,15 +15,14 @@ const moveSchema = mongoose.Schema(
 const gameSchema = mongoose.Schema(
   {
     player1: {
-      type: String,
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
       required: true,
-      trim: true,
     },
 
     player2: {
-      type: String,
-      required: true,
-      trim: true,
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
     },
 
     roomId: {
@@ -51,6 +50,4 @@ const gameSchema = mongoose.Schema(
   }
 );
 
-const Game = mongoose.model('Game', gameSchema);
-
-export default Game;
+export default mongoose.model('Game', gameSchema);

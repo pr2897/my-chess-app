@@ -5,14 +5,10 @@ import { Chess } from 'chess.js';
 import { Game } from '../models/index.js';
 import ApiError from '../utils/ApiError.js';
 
-const createNewGame = async ({ roomId, player1, player2, from, to }) => {
+const createNewGame = async ({ roomId, player1 }) => {
   const chess = new Chess();
-
-  const move = chess.move({ from, to });
-  if (!move) throw new ApiError(400, 'Illegal Move');
-
-  const game = await Game.create({ player1, player2, roomId, fen: chess.fen(), moveHistory: move });
-  return { roomId: game.roomId, move };
+  const game = await Game.create({ player1, roomId, fen: chess.fen(), moveHistory: [] });
+  return { roomId: game.roomId };
 };
 
 const getCurrentPosition = async (roomId) => {
@@ -20,7 +16,6 @@ const getCurrentPosition = async (roomId) => {
   if (!game) throw new ApiError(400, 'No Game Records found!');
 
   const chess = new Chess(game.fen);
-
   const position = chess.board();
   return position.reduce((acc, row) => {
     const rowItems = row.map((current) => {
@@ -53,7 +48,11 @@ const getMoveHistory = async (roomId) => {
   return game.moveHistory;
 };
 
-const getTurn = (userId) => {
+const getTurn = async (roomId) => {
+  const game = await Game.findOne({ roomId });
+  if (!game) throw new ApiError(400, 'No Game Records found!');
+
+  const chess = new Chess(game.fen);
   return chess.turn();
 };
 

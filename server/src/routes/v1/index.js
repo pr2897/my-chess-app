@@ -1,12 +1,18 @@
 import express from 'express';
-import chessRoute from './chess.route.js';
 import config from '../../config/config.js';
+
+import chessRoute from './chess.route.js';
+import authRoute from './auth.route.js';
 
 const router = express.Router();
 
 const defaultRoutes = [
   {
-    path: '/chess',
+    path: '/auth',
+    route: authRoute,
+  },
+  {
+    path: '/game',
     route: chessRoute,
   },
 ];

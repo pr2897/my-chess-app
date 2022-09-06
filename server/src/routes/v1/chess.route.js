@@ -1,11 +1,14 @@
 import express from 'express';
-import chessController from '../../controllers/chess.controller.js';
+import { chessController, authController } from '../../controllers/index.js';
 
 const router = express.Router();
 
-router.post('/', chessController.createNewGame);
-router.get('/:roomId/history', chessController.getHistoryByRoomId);
-router.get('/:roomId', chessController.getCurentStatus);
-router.patch('/:roomId', chessController.movePeice);
+router.post('/', authController.isAuth, chessController.createNewGame);
+
+// router.get('/:roomId', authController.isAuth, chessController.getRoomInfo);
+// router.patch('/:roomId', authController.isAuth, chessController.movePeice);
+
+// router.get('/:roomId/history', authController.isAuth, chessController.getHistoryByRoomId);
+// router.get('/:roomId', authController.isAuth, chessController.getCurentStatus);
 
 export default router;
