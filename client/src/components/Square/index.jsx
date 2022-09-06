@@ -1,10 +1,13 @@
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import React from "react";
 import "./style.css";
 
 let myMove = { from: null, to: null };
 
 const Square = ({ available = false, tileColor, peice, position, reload }) => {
+  const params = useParams();
+
   const style = {
     background: tileColor,
   };
@@ -23,17 +26,22 @@ const Square = ({ available = false, tileColor, peice, position, reload }) => {
       onDragLeave={(e) => e.currentTarget.id}
       onDrop={(e) => {
         myMove.to = e.currentTarget.id;
+        console.log({ myMove });
         const movePeice = async (from = null, to = null) => {
-          if (from && to && from !== to)
-            await axios
-              .patch(
-                "http://localhost:3000/v1/chess/cafb63c6-fa0a-4de8-8ff5-bf105c073914",
-                { from, to }
-              )
-              .catch((err) =>
-                alert(err.response?.data?.message || err.message)
-              );
-          else myMove = { from: null, to: null };
+          if (from && to && from !== to) {
+            const axiosConfig = {
+              method: "patch",
+              url: `${process.env.REACT_APP_GAME_ROOT_API}/${params.roomId}`,
+              data: { from, to },
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            };
+
+            await axios(axiosConfig).catch((err) => {
+              alert(err?.response?.data?.message || err.message);
+            });
+          } else myMove = { from: null, to: null };
         };
 
         movePeice(myMove.from, myMove.to);
