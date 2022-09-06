@@ -26,7 +26,7 @@ const Square = ({ available = false, tileColor, peice, position, reload }) => {
       onDragLeave={(e) => e.currentTarget.id}
       onDrop={(e) => {
         myMove.to = e.currentTarget.id;
-        console.log({ myMove });
+
         const movePeice = async (from = null, to = null) => {
           if (from && to && from !== to) {
             const axiosConfig = {
