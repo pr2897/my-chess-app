@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { AiOutlinePlus } from "react-icons/ai";
 import { HiLightBulb } from "react-icons/hi";
@@ -9,21 +10,36 @@ import ME from "../../assets/images/fu1.png";
 import YOU from "../../assets/images/mu1.png";
 
 const Analysis = () => {
+  const params = useParams();
+
   const [history, setHistory] = useState("[]");
+
   useEffect(() => {
     const fetchAndSetHistory = async () => {
-      const resp = await axios.get(
-        "http://localhost:3000/v1/chess/cafb63c6-fa0a-4de8-8ff5-bf105c073914/history"
-      );
-      const parsedHistory = resp.data.data.map((current) => [
-        current.from,
-        current.to,
-      ]);
-      setHistory(JSON.stringify(parsedHistory));
+      const { roomId } = params;
+      const axiosConfig = {
+        method: "get",
+        url: `${process.env.REACT_APP_GAME_ROOT_API}/${roomId}?type=history`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
+
+      await axios(axiosConfig)
+        .then((resp) => {
+          const parsedHistory = resp.data.data.map((current) => [
+            current.from,
+            current.to,
+          ]);
+          setHistory(JSON.stringify(parsedHistory));
+        })
+        .catch((err) => {
+          alert(err?.response?.data?.message || err.message);
+        });
     };
 
     fetchAndSetHistory();
-  }, [history]);
+  }, [history, params]);
   return (
     <div className="container analysis__container">
       <div className="analysis__info">

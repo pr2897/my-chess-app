@@ -27,8 +27,8 @@ const App = () => {
             element={
               <div className="display">
                 <Board />
-                {/* <Analysis /> */}
-                {/* <Chat /> */}
+                <Analysis />
+                <Chat />
               </div>
             }
           />
