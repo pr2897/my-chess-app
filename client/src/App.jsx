@@ -3,7 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 import "./App.css";
 
-import { Analysis, Board, Chat, Header, Login, Nav } from "./components";
+import {
+  Analysis,
+  Board,
+  Chat,
+  GameMenu,
+  Header,
+  Login,
+  Nav,
+} from "./components";
 
 const App = () => {
   return (
@@ -13,6 +21,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/:userId" element={<GameMenu />} />
           <Route
             path="/game"
             element={

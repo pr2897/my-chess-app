@@ -65,6 +65,7 @@ const Login = () => {
 
       await axios(axiosConfig)
         .then(({ data }) => {
+          localStorage.setItem("token", data.token);
           navigate(`/${data.user._id}`);
         })
         .catch((err) => {

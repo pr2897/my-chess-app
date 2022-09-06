@@ -1,0 +1,103 @@
+.container__gameMenu {
+  padding: 2rem;
+  margin: 2rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.container__gameMenu > h1 {
+  background-image: linear-gradient(90deg, #713822, #713942);
+  background-clip: text;
+  color: transparent;
+  display: flex;
+  justify-content: center;
+}
+
+.menuItem {
+  width: fit-content;
+  border: 2px solid #a1644c;
+  border-radius: 1rem 2rem 1rem 3rem;
+  box-shadow: 3px 3px 3px #213123;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.menuItem button {
+  width: 100%;
+  color: #a35c40;
+}
+
+.menu__details {
+  color: #a35c40;
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu__details h3::before {
+  content: "";
+  margin: 0.5rem;
+  width: 80%;
+  border: 2px solid rgb(118, 90, 35);
+}
+
+.hidden {
+  display: none;
+}
+
+.inputSection {
+  width: 50%;
+  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  justify-content: space-evenly;
+  gap: 0.5rem;
+}
+
+.inputSection input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.inputSection button {
+  width: 100%;
+}
+
+.inputSection .watch_game_live {
+  border: 2px double saddlebrown;
+  box-shadow: 5px 5px 1rem #345675;
+}
+
+.menu_details__past_games {
+  margin: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.past_game__card {
+  padding: 0.5rem;
+  border: 2px solid #654b0f76;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 5px #a1644c;
+  cursor: pointer;
+  padding: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.past_game__card span {
+  display: flex;
+  flex-direction: column;
+  font-size: xx-small;
+  align-items: flex-end;
+  color: black;
+}
