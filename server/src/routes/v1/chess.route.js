@@ -6,10 +6,7 @@ const router = express.Router();
 router.get('/', authController.isAuth, chessController.getUserGameInfo);
 router.post('/', authController.isAuth, chessController.createOrJoinNewGame);
 
-// router.get('/:roomId', authController.isAuth, chessController.getRoomInfo);
-// router.patch('/:roomId', authController.isAuth, chessController.movePeice);
-
-// router.get('/:roomId/history', authController.isAuth, chessController.getHistoryByRoomId);
-// router.get('/:roomId', authController.isAuth, chessController.getCurentStatus);
+router.get('/:roomId', authController.isAuth, chessController.getRoomInfo);
+router.patch('/:roomId', authController.isAuth, chessController.movePeice);
 
 export default router;
